@@ -1,4 +1,7 @@
 package me.wiktorlacki.ekomersz
 
-class ValidationUtils {
+import jakarta.validation.ValidationException
+
+fun validate(condition: Boolean, message: () -> String) {
+    if (!condition) throw ValidationException(message())
 }

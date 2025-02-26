@@ -2,7 +2,9 @@ package me.wiktorlacki.ekomersz.exception
 
 import java.time.Instant
 
-data class ErrorDetailsResponse(
-    val message: String?,
-    val timeStamp: Instant = Instant.now(),
+data class DetailedErrorResponse(
+    val timeStamp: String = Instant.now().toString(),
+    val status: Int,
+    val message: String,
+    val errors: Map<String, String>,
 )

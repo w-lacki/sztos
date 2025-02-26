@@ -1,5 +1,5 @@
 package me.wiktorlacki.ekomersz.user
 
-data class UserDTO(val email: String, val username: String)
+data class UserResponse(val email: String, val username: String)
 
-fun User.toDTO() = UserDTO(email, username)
+fun User.toResponse() = UserResponse(email, username)
