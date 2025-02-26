@@ -16,16 +16,15 @@ import java.security.interfaces.RSAPublicKey
 import java.time.Duration
 
 @Configuration
-@ConfigurationProperties(prefix = "security.jwt")
 class JwtConfiguration {
 
-    @Value("\${private_key}")
+    @Value("\${security.jwt.private_key}")
     private lateinit var privateKey: RSAPrivateKey
 
-    @Value("\${public_key}")
+    @Value("\${security.jwt.public_key}")
     private lateinit var publicKey: RSAPublicKey
 
-    @Value("\${ttl}")
+    @Value("\${security.jwt.ttl}")
     private lateinit var ttl: Duration
 
     @Bean
