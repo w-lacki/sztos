@@ -15,4 +15,10 @@ class UserController(private val userService: UserService) {
         val user = userService.getByUsername(authentication.name) ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(user.toResponse())
     }
+
+    @GetMapping("/roles")
+    fun roles(authentication: Authentication): ResponseEntity<List<String>> {
+        val user = userService.getByUsername(authentication.name) ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok(user.roles.map { it.name }.toList())
+    }
 }

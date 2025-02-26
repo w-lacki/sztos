@@ -1,8 +1,7 @@
 package me.wiktorlacki.ekomersz.user
 
 import jakarta.persistence.*
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
+import me.wiktorlacki.ekomersz.user.role.Role
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -22,13 +21,19 @@ class User(
     @Column(nullable = false, unique = true)
     val email: String,
 
-    @NotNull
-    @NotBlank
     @Column(nullable = false)
     var password: String,
 
     @Column(nullable = false)
     var emailVerified: Boolean = false,
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
+    )
+    var roles: MutableSet<Role> = mutableSetOf(),
 
     @Column(
         name = "created_at", nullable = false, updatable = false

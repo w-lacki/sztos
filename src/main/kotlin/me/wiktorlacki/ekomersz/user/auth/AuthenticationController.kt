@@ -15,12 +15,13 @@ class AuthenticationController(
 
     @PostMapping("/login")
     fun login(@RequestBody @Valid request: LoginRequest): ResponseEntity<LoginResponse> {
-        return ResponseEntity.ok(authenticationService.authenticate(request))
+        val response = authenticationService.authenticate(request)
+        return ResponseEntity.ok(response)
     }
 
     @PostMapping("/register")
     fun register(@RequestBody @Valid request: RegistrationRequest): ResponseEntity<RegistrationResponse> {
-        val registeredUser = authenticationService.register(request)
-        return ResponseEntity.ok(registeredUser.toRegistrationResponse())
+        val response = authenticationService.register(request)
+        return ResponseEntity.ok(response)
     }
 }

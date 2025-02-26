@@ -17,12 +17,16 @@ data class LoginRequest(
 )
 
 data class LoginResponse(val token: String)
+fun JwtToken.toLoginResponse() = LoginResponse(token)
 
 data class RegistrationRequest(
 
     @get:NotBlank(message = "Username cannot be blank.")
     @get:Size(min = 3, max = 16, message = "Username must be between 3 and 16 characters.")
-    @get:Pattern(regexp = "[a-zA-Z0-9_]+", message = "Username must consist of alphanumeric characters, numbers or underscores.")
+    @get:Pattern(
+        regexp = "[a-zA-Z0-9_]+",
+        message = "Username must consist of alphanumeric characters, numbers or underscores."
+    )
     val username: String,
     @get:Email(message = "Invalid email address.")
     val email: String,
@@ -32,12 +36,5 @@ data class RegistrationRequest(
     val password: String
 )
 
-fun RegistrationRequest.toEntity() = User(
-    username = username,
-    email = email,
-    password = password
-)
-
 data class RegistrationResponse(val username: String, val email: String)
-
 fun User.toRegistrationResponse() = RegistrationResponse(username, email)
