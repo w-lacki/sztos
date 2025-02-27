@@ -13,7 +13,7 @@ import java.util.*
 @EntityListeners(AuditingEntityListener::class)
 class User(
     @Id @GeneratedValue(strategy = GenerationType.UUID)
-    private var id: UUID? = null,
+    var id: UUID? = null,
 
     @Column(nullable = false, unique = true, updatable = false)
     val username: String,
