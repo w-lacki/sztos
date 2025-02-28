@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 import me.wiktorlacki.ekomersz.user.User
+import java.util.UUID
 
 data class LoginRequest(
     @get:NotBlank(message = "Username cannot be blank.")
@@ -17,9 +18,9 @@ data class LoginRequest(
     val password: String
 )
 
-data class LoginResponse(val token: String)
+data class LoginResponse(val token: String, val refreshToken: String)
 
-fun JwtToken.toLoginResponse() = LoginResponse(token)
+fun JwtToken.toLoginResponse(refreshToken: UUID) = LoginResponse(token, refreshToken.toString())
 
 data class RegistrationRequest(
 

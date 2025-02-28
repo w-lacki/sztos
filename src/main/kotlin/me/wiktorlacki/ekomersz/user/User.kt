@@ -1,6 +1,7 @@
 package me.wiktorlacki.ekomersz.user
 
 import jakarta.persistence.*
+import me.wiktorlacki.ekomersz.user.auth.RefreshToken
 import me.wiktorlacki.ekomersz.user.role.Role
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -34,6 +35,9 @@ class User(
         inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
     )
     var roles: MutableSet<Role> = mutableSetOf(),
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var refreshTokens: MutableList<RefreshToken> = mutableListOf(),
 
     @Column(
         name = "created_at", nullable = false, updatable = false
