@@ -7,7 +7,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 import java.util.UUID
 
-@Entity(name = "refresh_tokens")
+@Entity
+@Table(name = "refresh_tokens")
 @EntityListeners(AuditingEntityListener::class)
 class RefreshToken(
 
