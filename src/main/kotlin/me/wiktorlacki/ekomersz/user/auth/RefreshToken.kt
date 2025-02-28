@@ -12,7 +12,7 @@ import java.util.UUID
 class RefreshToken(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     var id: UUID? = null,
 
     @ManyToOne(optional = false)
