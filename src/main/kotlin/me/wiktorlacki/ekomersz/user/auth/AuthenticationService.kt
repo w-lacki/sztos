@@ -5,7 +5,6 @@ import me.wiktorlacki.ekomersz.user.User
 import me.wiktorlacki.ekomersz.user.UserRepository
 import me.wiktorlacki.ekomersz.user.role.RoleRepository
 import me.wiktorlacki.ekomersz.validate
-import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service
 @Service
 class AuthenticationService(
     private val jwtService: JwtService,
+    private val emailVerificationService: EmailVerificationService,
     private val userRepository: UserRepository,
     private val roleRepository: RoleRepository,
     private val passwordEncoder: PasswordEncoder,
@@ -41,6 +41,9 @@ class AuthenticationService(
             }.toMutableSet()
         )
 
-        return userRepository.save(user).toRegistrationResponse()
+        userRepository.save(user)
+        emailVerificationService.sendVerificationEmail(user)
+
+        return user.toRegistrationResponse()
     }
 }

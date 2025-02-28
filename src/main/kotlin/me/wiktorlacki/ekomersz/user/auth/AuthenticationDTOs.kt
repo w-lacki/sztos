@@ -1,5 +1,6 @@
 package me.wiktorlacki.ekomersz.user.auth
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
@@ -17,6 +18,7 @@ data class LoginRequest(
 )
 
 data class LoginResponse(val token: String)
+
 fun JwtToken.toLoginResponse() = LoginResponse(token)
 
 data class RegistrationRequest(
@@ -36,5 +38,22 @@ data class RegistrationRequest(
     val password: String
 )
 
-data class RegistrationResponse(val username: String, val email: String)
-fun User.toRegistrationResponse() = RegistrationResponse(username, email)
+data class RegistrationResponse(
+    val username: String,
+    val email: String,
+
+    @JsonProperty("requires_confirmation")
+    val requiresConfirmation: Boolean = true
+)
+
+fun User.toRegistrationResponse() = RegistrationResponse(
+    username,
+    email
+)
+
+data class VerificationResponse(
+    val email: String, @JsonProperty("requires_confirmation")
+    val requiresConfirmation: Boolean = false
+)
+
+fun User.toVerificationResponse() = VerificationResponse(email)

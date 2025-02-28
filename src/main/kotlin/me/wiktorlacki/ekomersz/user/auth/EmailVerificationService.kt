@@ -22,8 +22,8 @@ class EmailVerificationService(
     @Async
     fun sendVerificationEmail(user: User) {
         validate(!user.emailVerified) { "Email already verified ${user.emailVerified}" }
-        val token = otpService.generateOtp(user)
-        val emailVerificationUrl = "http://localhost:8080/api/auth/verify/id=${user.id}?token=${token}"
+        val code = otpService.generateOtp(user)
+        val emailVerificationUrl = "http://localhost:8080/api/auth/verify/${user.id}?code=${code}"
         val emailText = "Click the link to verify your email: $emailVerificationUrl"
 
         val message = SimpleMailMessage()
@@ -36,8 +36,8 @@ class EmailVerificationService(
     }
 
     @Transactional
-    fun verifyEmail(id: UUID, token: String): User {
-        if (!otpService.isValidOtp(id, token)) throw ResponseStatusException(
+    fun verifyEmail(id: UUID, code: String): VerificationResponse {
+        if (!otpService.isValidOtp(id, code)) throw ResponseStatusException(
             HttpStatus.BAD_REQUEST,
             "Invalid or expired verification code."
         )
@@ -49,6 +49,7 @@ class EmailVerificationService(
         )
 
         user.emailVerified = true
-        return user
+
+        return user.toVerificationResponse()
     }
 }

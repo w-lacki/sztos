@@ -11,11 +11,14 @@ class OtpService(private val redisTemplate: RedisTemplate<String, String>) {
 
     private val charset = "abcdefghijklmnopqrstuwxyz0123456789"
 
-    fun isValidOtp(id: UUID, code: String) = redisTemplate.opsForValue().get(id.toCacheKey()) == code
+    fun isValidOtp(id: UUID, code: String): Boolean {
+        val expected = redisTemplate.opsForValue().get(id.toCacheKey())
+        return code == expected
+    }
 
-    fun generateOtp(user: User) {
+    fun generateOtp(user: User): String {
         val code = randomCode()
-        redisTemplate.opsForValue().set(user.id.toCacheKey(), code, Duration.ofMinutes(5))
+        return code.also { redisTemplate.opsForValue().set(user.id.toCacheKey(), code, Duration.ofMinutes(5)) }
     }
 
     fun invalidateOtp(id: UUID) {
