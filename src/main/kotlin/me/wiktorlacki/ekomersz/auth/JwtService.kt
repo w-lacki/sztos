@@ -1,4 +1,4 @@
-package me.wiktorlacki.ekomersz.user.auth
+package me.wiktorlacki.ekomersz.auth
 
 import org.springframework.security.oauth2.jwt.JwtClaimsSet
 import org.springframework.security.oauth2.jwt.JwtEncoder

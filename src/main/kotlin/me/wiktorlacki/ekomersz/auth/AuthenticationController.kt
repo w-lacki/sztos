@@ -1,4 +1,4 @@
-package me.wiktorlacki.ekomersz.user.auth
+package me.wiktorlacki.ekomersz.auth
 
 import jakarta.validation.Valid
 import org.springframework.http.MediaType

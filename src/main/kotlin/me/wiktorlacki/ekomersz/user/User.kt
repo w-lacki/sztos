@@ -1,8 +1,8 @@
 package me.wiktorlacki.ekomersz.user
 
 import jakarta.persistence.*
-import me.wiktorlacki.ekomersz.user.auth.RefreshToken
-import me.wiktorlacki.ekomersz.user.role.Role
+import me.wiktorlacki.ekomersz.auth.RefreshToken
+import me.wiktorlacki.ekomersz.role.Role
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener

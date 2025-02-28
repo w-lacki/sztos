@@ -1,4 +1,4 @@
-package me.wiktorlacki.ekomersz.user.auth
+package me.wiktorlacki.ekomersz.auth
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.Email

@@ -1,4 +1,4 @@
-package me.wiktorlacki.ekomersz.user.auth
+package me.wiktorlacki.ekomersz.auth
 
 import org.springframework.data.repository.CrudRepository
 import java.time.Instant

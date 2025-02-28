@@ -1,4 +1,4 @@
-package me.wiktorlacki.ekomersz.user.role
+package me.wiktorlacki.ekomersz.role
 
 import jakarta.persistence.*
 

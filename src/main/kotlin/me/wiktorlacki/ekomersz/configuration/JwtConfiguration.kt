@@ -3,7 +3,7 @@ package me.wiktorlacki.ekomersz.configuration
 import com.nimbusds.jose.jwk.JWKSet
 import com.nimbusds.jose.jwk.RSAKey
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet
-import me.wiktorlacki.ekomersz.user.auth.JwtService
+import me.wiktorlacki.ekomersz.auth.JwtService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean

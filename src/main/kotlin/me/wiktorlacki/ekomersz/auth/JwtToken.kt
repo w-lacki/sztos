@@ -1,3 +1,3 @@
-package me.wiktorlacki.ekomersz.user.auth
+package me.wiktorlacki.ekomersz.auth
 
 @JvmInline value class JwtToken(val token: String)

@@ -1,4 +1,4 @@
-package me.wiktorlacki.ekomersz.user.auth
+package me.wiktorlacki.ekomersz.auth
 
 import jakarta.transaction.Transactional
 import me.wiktorlacki.ekomersz.user.User

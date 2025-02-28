@@ -1,9 +1,9 @@
-package me.wiktorlacki.ekomersz.user.auth
+package me.wiktorlacki.ekomersz.auth
 
 import jakarta.transaction.Transactional
 import me.wiktorlacki.ekomersz.user.User
 import me.wiktorlacki.ekomersz.user.UserRepository
-import me.wiktorlacki.ekomersz.user.role.RoleRepository
+import me.wiktorlacki.ekomersz.role.RoleRepository
 import me.wiktorlacki.ekomersz.validateNotNull
 import me.wiktorlacki.ekomersz.validate
 import org.springframework.security.authentication.AuthenticationManager
