@@ -44,7 +44,6 @@ const UserContestManagement = ({contestId}) => {
             </thead>
             <tbody>
             {contest.problems.map(problem => (<ProblemRow key={problem.id} contestId={contestId} problem={problem}/>))}
-
             </tbody>
         </table>
     </div>
