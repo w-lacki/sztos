@@ -7,6 +7,7 @@ import java.util.UUID
 @Service
 class UserService(private val userRepository: UserRepository) {
 
-    fun getById(id: UUID): User? = userRepository.findByIdOrNull(id)
-    fun getByUsername(username: String): User? = userRepository.findByUsername(username)
+    fun getById(id: UUID) = userRepository.findByIdOrNull(id) ?: throw UserNotFoundException()
+    fun getByUsername(username: String) = userRepository.findByUsername(username) ?: throw UserNotFoundException()
+    fun getAllByUsernameContaining(username: String) = userRepository.findByUsernameContainingIgnoreCase(username)
 }

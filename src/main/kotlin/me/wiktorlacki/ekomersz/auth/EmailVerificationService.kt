@@ -43,10 +43,7 @@ class EmailVerificationService(
         )
         otpService.invalidateOtp(id)
 
-        val user = userService.getById(id) ?: throw ResponseStatusException(
-            HttpStatus.NOT_FOUND,
-            "User with id $id does not exist."
-        )
+        val user = userService.getById(id)
 
         user.emailVerified = true
 

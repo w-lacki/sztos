@@ -9,6 +9,9 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+
 
 @Configuration
 class SecurityConfiguration {
@@ -16,8 +19,17 @@ class SecurityConfiguration {
     @Bean
     fun securityFilterChain(http: HttpSecurity) = http
         .csrf { it.disable() }
+        .cors {
+            val configuration = CorsConfiguration()
+            configuration.allowedOrigins = mutableListOf("*")
+            configuration.allowedMethods = mutableListOf("*")
+            configuration.allowedHeaders = mutableListOf("*")
+            val source: UrlBasedCorsConfigurationSource = UrlBasedCorsConfigurationSource()
+            source.registerCorsConfiguration("/**", configuration)
+            it.configurationSource(source)
+        }
         .authorizeHttpRequests {
-            it.requestMatchers("/api/auth/**").permitAll()
+            it.requestMatchers("/api/v1/auth/**").permitAll()
                 .anyRequest().authenticated()
         }
         .sessionManagement {

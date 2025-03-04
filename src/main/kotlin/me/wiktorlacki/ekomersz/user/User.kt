@@ -2,10 +2,15 @@ package me.wiktorlacki.ekomersz.user
 
 import jakarta.persistence.*
 import me.wiktorlacki.ekomersz.auth.RefreshToken
+import me.wiktorlacki.ekomersz.contest.Contest
 import me.wiktorlacki.ekomersz.role.Role
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import java.time.Instant
 import java.util.*
 
@@ -37,7 +42,13 @@ class User(
     var roles: MutableSet<Role> = mutableSetOf(),
 
     @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var refreshTokens: MutableList<RefreshToken> = mutableListOf(),
+    val refreshTokens: MutableList<RefreshToken> = mutableListOf(),
+
+    @ManyToMany(mappedBy = "users", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    val contests: MutableList<Contest> = mutableListOf(),
+
+    @OneToMany(mappedBy = "creator", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val createdContests: MutableList<Contest> = mutableListOf(),
 
     @Column(
         name = "created_at", nullable = false, updatable = false
@@ -50,4 +61,7 @@ class User(
     )
     @LastModifiedDate
     private var updatedAt: Instant? = null
-)
+) {
+
+    fun hasRole(name: String) = roles.any { it.name.equals("ROLE_${name}", true) }
+}

@@ -31,8 +31,8 @@ class AuthenticationService(
     fun authenticate(request: LoginRequest): LoginResponse {
         val authToken = UsernamePasswordAuthenticationToken.unauthenticated(request.username, request.password)
         authenticationManager.authenticate(authToken)
-        val accessToken = jwtService.generateToken(request.username)
         val user = userRepository.findByUsername(request.username) ?: throw UsernameNotFoundException(request.username)
+        val accessToken = jwtService.generateToken(request.username, user.roles.map { it.name })
 
         val refreshToken = RefreshToken(
             user = user,
@@ -46,8 +46,8 @@ class AuthenticationService(
         val refreshTokenEntity = refreshTokenRepository.findByIdAndExpiresAtAfter(refreshToken, Instant.now())
 
         validateNotNull(refreshTokenEntity) { "Invalid or expired refresh token." }
-        val newAccessToken = jwtService
-            .generateToken(refreshTokenEntity!!.user.username)
+        val user = refreshTokenEntity!!.user
+        val newAccessToken = jwtService.generateToken(user.username, user.roles.map { it.name })
 
         return JwtToken(newAccessToken).toLoginResponse(refreshToken)
     }
@@ -67,7 +67,8 @@ class AuthenticationService(
             password = passwordEncoder.encode(request.password),
             roles = buildSet {
                 roleRepository.findByName("ROLE_USER")?.let { add(it) }
-            }.toMutableSet()
+            }.toMutableSet(),
+            emailVerified = true
         )
 
         userRepository.save(user)

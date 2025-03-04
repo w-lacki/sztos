@@ -8,7 +8,7 @@ import java.util.*
 
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 class AuthenticationController(
     private val authenticationService: AuthenticationService,
     private val emailVerificationService: EmailVerificationService

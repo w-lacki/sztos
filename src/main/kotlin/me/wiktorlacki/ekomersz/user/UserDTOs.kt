@@ -1,5 +1,17 @@
 package me.wiktorlacki.ekomersz.user
 
-data class UserResponse(val email: String, val username: String)
+import java.util.UUID
 
-fun User.toResponse() = UserResponse(email, username)
+data class UserResponse(
+    val id: UUID,
+    val email: String,
+    val username: String,
+    val roles: List<String>
+)
+
+fun User.toResponse() = UserResponse(
+    id!!,
+    email,
+    username,
+    roles.map { it.name }
+)

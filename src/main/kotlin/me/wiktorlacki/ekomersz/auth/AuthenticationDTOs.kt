@@ -18,7 +18,10 @@ data class LoginRequest(
     val password: String
 )
 
-data class LoginResponse(val token: String, val refreshToken: String)
+data class LoginResponse(
+    val token: String,
+    val refreshToken: String
+)
 
 fun JwtToken.toLoginResponse(refreshToken: UUID) = LoginResponse(token, refreshToken.toString())
 
@@ -42,8 +45,6 @@ data class RegistrationRequest(
 data class RegistrationResponse(
     val username: String,
     val email: String,
-
-    @JsonProperty("requires_confirmation")
     val requiresConfirmation: Boolean = true
 )
 
