@@ -3,10 +3,7 @@ import {useEffect, useState} from "react";
 import {useAxiosAuth} from "../hooks/axiosProvider.js";
 import {useNavigate} from "react-router-dom";
 
-const UserAdd = () => {
-    const [username, setUsername] = useState('');
-    const [results, setResults] = useState(null);
-}
+
 const Contests = () => {
     const axiosAuth = useAxiosAuth();
     const [contests, setContests] = useState(null);
@@ -29,6 +26,9 @@ const Contests = () => {
             }).finally(() => setLoading(false))
     }
 
+    const createContest = () => {
+        navigate("/contests/create")
+    }
 
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error: {error.message}</div>;
@@ -39,14 +39,12 @@ const Contests = () => {
         <h1>{isTeacher ? "Manage contests" : "Your contests"}</h1>
         <ol>
             {contests.map(contest => (
-                <div>
-                    <li>
-                        <a href={`/contests/${contest.id}`}>{contest.title}</a>
-                    </li>
-                </div>
+                <li key={"contest" + contest.id}>
+                    <a href={`/contests/${contest.id}`}>{contest.title}</a>
+                </li>
             ))}
         </ol>
-        <button onClick={createContest}>Create new contest</button>
+        {isTeacher && <button onClick={createContest}>Create new contest</button>}
     </div>)
 }
 export default Contests;

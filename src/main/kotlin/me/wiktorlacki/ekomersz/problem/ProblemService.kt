@@ -13,6 +13,7 @@ class ProblemService(
     private val contestService: ContestService
 ) {
 
+    fun getById(id: Long) = problemRepository.findByIdOrNull(id) ?: throw ProblemNotFoundException()
 
     fun getContextAwareByProblemId(username: String, problemId: Long): DetailedProblemDTO {
         val user = userService.getByUsername(username)

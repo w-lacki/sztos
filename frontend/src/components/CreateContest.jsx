@@ -1,6 +1,5 @@
-import {useAuth} from "../hooks/useAuth.js";
-import {useEffect, useState} from "react";
-import {axiosInstance, useAxiosAuth} from "../hooks/axiosProvider.js";
+import {useState} from "react";
+import {useAxiosAuth} from "../hooks/axiosProvider.js";
 import {useNavigate} from "react-router-dom";
 
 const CreateContest = () => {
@@ -18,8 +17,7 @@ const CreateContest = () => {
             navigate(`/contests/${response.data.id}`)
         }).catch(error => {
             // TODO: Handle errors BETTER
-            setError(`Invalid credentials ${error}`)
-            setFormData((prev) => ({...prev, ["password"]: ''}))
+            setError(`Error ${error}`)
         }).finally(() => setSubmitting(false))
     }
 
@@ -36,9 +34,11 @@ const CreateContest = () => {
                 <input onChange={handleChange} id="title" name="title" placeholder="Enter contest title"/>
 
                 <label htmlFor="description">Description: </label>
-                <textarea onChange={handleChange} id="description" name="description" placeholder="Enter contest description"/>
+                <textarea onChange={handleChange} id="description" name="description"
+                          placeholder="Enter contest description"/>
 
-                <button type="submit" disabled={submitting}> {submitting ? 'Creating contest...' : 'Create contest'} </button>
+                <button type="submit"
+                        disabled={submitting}> {submitting ? 'Creating contest...' : 'Create contest'} </button>
             </form>
         </div>
     </div>)

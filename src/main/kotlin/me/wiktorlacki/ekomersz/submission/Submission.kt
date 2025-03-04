@@ -14,6 +14,7 @@ import java.time.Instant
 @EntityListeners(AuditingEntityListener::class)
 class Submission(
     @Id
+    @GeneratedValue
     val id: Long? = null,
 
     @ManyToOne(optional = false)

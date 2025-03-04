@@ -1,6 +1,7 @@
 package me.wiktorlacki.ekomersz.user
 
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -24,6 +25,7 @@ class UserController(private val userService: UserService) {
     }
 
     @GetMapping("/{name}")
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
     fun getByName(@PathVariable name: String): ResponseEntity<List<UserResponse>> {
         return ResponseEntity.ok(userService.getAllByUsernameContaining(name).map { it.toResponse() })
     }
