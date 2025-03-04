@@ -1,19 +1,17 @@
 package me.wiktorlacki.ekomersz.test
 
 import jakarta.persistence.*
-import me.wiktorlacki.ekomersz.problem.Problem
 import me.wiktorlacki.ekomersz.submission.Submission
-import me.wiktorlacki.ekomersz.user.User
 import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 
 @Entity
-@Table(name = "tests")
+@Table(name = "test_results")
 @EntityListeners(AuditingEntityListener::class)
 class TestResult(
     @Id
+    @GeneratedValue
     val id: Long? = null,
 
     @ManyToOne(optional = false)

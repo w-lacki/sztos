@@ -2,7 +2,6 @@ package me.wiktorlacki.ekomersz.test
 
 import me.wiktorlacki.ekomersz.submission.Submission
 import org.slf4j.LoggerFactory
-import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import java.io.InputStream
 import java.nio.file.Files
@@ -18,7 +17,6 @@ class TestService(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    @Async
     fun compileAndRun(submission: Submission) {
         val submissionDir = Files.createTempDirectory("submission")
         val submissionFile = submissionDir.resolve("submission.cpp")
