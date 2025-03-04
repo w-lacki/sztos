@@ -27,7 +27,6 @@ class TestService(
 
         // COMPILATION
         val compilationOutput = compile(submissionDir)
-        logger.info("Na essie??")
         logger.info(compilationOutput)
 
 
