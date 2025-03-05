@@ -25,7 +25,7 @@ class TestResult(
     @Column(nullable = false, updatable = false)
     val points: Int,
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     val output: String,
 
     @Column(name = "created_at", nullable = false, updatable = false)

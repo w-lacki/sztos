@@ -1,16 +1,16 @@
 import {useState} from "react";
 import {useAxiosAuth} from "../hooks/axiosProvider.js";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const SubmissionManagement = () => {
-    const {problemId} = useParams();
+    const {contestId, problemId} = useParams();
     const axiosAuth = useAxiosAuth();
     const [error, setError] = useState(null)
     const [submitting, setSubmitting] = useState(false)
     const [formData, setFormData] = useState({
         problemId: `${problemId}`,
     })
-
+    const navigation = useNavigate();
     const handleSubmit = (event) => {
         setError(null)
         setSubmitting(true)
@@ -18,6 +18,7 @@ const SubmissionManagement = () => {
         axiosAuth.post('/submissions', formData)
             .then((response) => {
                 console.log(response)
+                navigation(`/contests/${contestId}/problems/${problemId}/results`)
             }).catch(error => {
             setError(`Error ${error}`)
         }).finally(() => setSubmitting(false))

@@ -1,11 +1,11 @@
-import {NavLink} from "react-router-dom";
 import {useAuth} from "../hooks/useAuth.js";
+import '../styles/Navbar.css';
 
 const Navbar = () => {
     const {auth} = useAuth();
 
     return (
-        <div>
+        <div className="navbar">
             <a href="/">Home</a>
             {auth.isAuthenticated ? (
                 <>

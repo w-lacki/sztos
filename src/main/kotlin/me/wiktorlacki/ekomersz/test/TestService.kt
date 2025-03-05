@@ -1,11 +1,8 @@
 package me.wiktorlacki.ekomersz.test
 
-import me.wiktorlacki.ekomersz.problem.ProblemService
 import me.wiktorlacki.ekomersz.submission.Submission
-import me.wiktorlacki.ekomersz.submission.SubmissionRepository
-import me.wiktorlacki.ekomersz.submission.SubmissionService
-import me.wiktorlacki.ekomersz.user.UserService
 import org.slf4j.LoggerFactory
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import java.io.InputStream
 import java.nio.file.Files
@@ -22,21 +19,22 @@ class TestService(
     private val logger = LoggerFactory.getLogger(javaClass)
 
 
-    fun compileAndRun(submission: Submission) {
+    @Async
+    fun compileAndRun(tests: List<Test>, submission: Submission) {
         val submissionDir = Files.createTempDirectory("submission")
         val submissionFile = submissionDir.resolve("submission.cpp")
 
         logger.info(submissionDir.absolutePathString())
 
-        Files.writeString(submissionFile, submission.content)
+        Files.writeString(submissionFile, submission.sourceCode)
 
         // COMPILATION
         val compilationOutput = compile(submissionDir)
         logger.info(compilationOutput)
 
 
+       // sleep(10_000)
         // TESTING
-        val tests = submission.problem.tests
         tests.forEach { test ->
             val output = run(test.input, submissionDir)
             val points = if (compare(output, test.output)) test.points else 0
@@ -59,7 +57,7 @@ class TestService(
             "docker", "run", "--rm",
             "-v", "$dir:/grading",
             "--network", "none",
-            "grader", "gcc", "-o", "submission", "submission.cpp"
+            "grader", "g++", "-o", "submission", "submission.cpp"
         )
 
         pb.redirectErrorStream(false)

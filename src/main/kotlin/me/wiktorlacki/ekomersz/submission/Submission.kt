@@ -28,8 +28,8 @@ class Submission(
     @Column
     var state: State,
 
-    @Column(nullable = false, updatable = false)
-    val content: String,
+    @Column(name = "source_code", nullable = false, updatable = false, columnDefinition = "TEXT")
+    val sourceCode: String,
 
     @Column(
         name = "created_at", nullable = false, updatable = false

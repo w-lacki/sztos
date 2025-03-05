@@ -1,38 +1,109 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
 import {useAxiosAuth} from "../hooks/axiosProvider.js";
-import {useParams} from "react-router-dom";
+import {useParams} from "react-router-dom"; // CSS file defined below
+import "../styles/Results.css";
+
 
 const Result = () => {
+    // JSON data
     const {problemId} = useParams();
-    const axiosAuth = useAxiosAuth();
+    const axiosAuth = useAxiosAuth()
+    const [results, setResults] = useState(null)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [results, setResults] = useState(null)
+    const [running, setRunning] = useState(true)
 
-    useEffect(() => {
-        fetchResults()
-    }, []);
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+    // Fetch results with retry logic
     const fetchResults = () => {
+        console.log("nigger2")
         axiosAuth.get(`/tests/results/${problemId}`)
-            .then((response) => {
-                setResults(`${response.data}`)
-                console.log(response.data.results)
-
-            }).catch(error => {
-            setError(`Error ${error}`)
+            .then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    console.log("ESSA!")
+                    setResults(res.data)
+                    setRunning(false)
+                } else sleep(1).then(() => {
+                    fetchResults()
+                })
+            }).catch(err => {
+                console.log(err)
+            setError(`Error: ${err.message}`);
+            setRunning(false);
         }).finally(() => setLoading(false))
     }
 
 
-    if (error) return <div> Error: ${error}</div>
-    if (loading) return <div>Loading...</div>
+    // Run fetchResults on mount or when problemId changes
+    useEffect(() => {
+        fetchResults();
+    }, []); // Dependency on problemId
 
-    return (<div>
-        <h1>Results</h1>
-        <div>
-            <p>{results}</p>
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    if (error) {
+        return <div>Error: ${error}</div>
+    }
+
+    if (running) {
+        return <div>Obliczanie...</div>
+    }
+
+    console.log(results)
+
+    // Pair tests with results
+    const pairedData = results.tests.map(test => {
+        const result = results.results.find(r => r.testId === test.id) || {};
+        return {test, result};
+    });
+
+    // Calculate total points
+    const totalPossiblePoints = results.tests.reduce((sum, test) => sum + test.points, 0);
+    const totalEarnedPoints = results.results.reduce((sum, result) => sum + result.points, 0);
+
+    return (
+        <div className="stos-container">
+            <header className="stos-header">
+                <h1>Wyniki Testów - STOS</h1>
+                <p className="summary">
+                    Punkty: {totalEarnedPoints} / {totalPossiblePoints}
+                </p>
+            </header>
+
+            <section className="test-results">
+                {pairedData.length > 0 ? (
+                    pairedData.map(({test, result}) => (
+                        <div key={test.id} className="test-case">
+                            <h2>Test #{test.id}</h2>
+                            <div className="test-details">
+                                <div className="test-info">
+                                    <p><strong>Wejście:</strong> {test.input}</p>
+                                    <p><strong>Oczekiwane wyjście:</strong></p>
+                                    <pre>{test.output}</pre>
+                                </div>
+                                <div className="result-info">
+                                    <p><strong>Wyjście studenta:</strong></p>
+                                    <pre>{result.output || 'Brak wyniku'}</pre>
+                                    <p>
+                                        <strong>Punkty:</strong> {result.points !== undefined ? result.points : 'N/A'} / {test.points}
+                                    </p>
+                                    <p><strong>Status:</strong> {result.points === test.points ?
+                                        <span className="passing">Zaliczony</span> :
+                                        <span className="failed">Zjebany</span>}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p>Brak wyników testów do wyświetlenia.</p>
+                )}
+            </section>
         </div>
-    </div>)
-}
+    );
+};
+
 export default Result;

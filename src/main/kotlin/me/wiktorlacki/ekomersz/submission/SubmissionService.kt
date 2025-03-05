@@ -31,14 +31,16 @@ class SubmissionService(
             submitter = submitter,
             problem = problem,
             state = Submission.State.RUNNING,
-            content = request.code
+            sourceCode = request.code
         )
 
         submissionRepository.save(submission)
-
-        testService.compileAndRun(submission)
+        val tests = submission.problem.tests
+        tests.count()
+        testService.compileAndRun(tests, submission)
 
         return submission.toSubmissionCreateResponse()
     }
+
 
 }
