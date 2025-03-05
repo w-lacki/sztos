@@ -1,6 +1,10 @@
 package me.wiktorlacki.ekomersz.test
 
+import me.wiktorlacki.ekomersz.problem.ProblemService
 import me.wiktorlacki.ekomersz.submission.Submission
+import me.wiktorlacki.ekomersz.submission.SubmissionRepository
+import me.wiktorlacki.ekomersz.submission.SubmissionService
+import me.wiktorlacki.ekomersz.user.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.io.InputStream
@@ -17,6 +21,7 @@ class TestService(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
+
     fun compileAndRun(submission: Submission) {
         val submissionDir = Files.createTempDirectory("submission")
         val submissionFile = submissionDir.resolve("submission.cpp")
@@ -32,12 +37,13 @@ class TestService(
 
         // TESTING
         val tests = submission.problem.tests
-        tests.forEach {
-            val output = run(it.input, submissionDir)
-            val points = if (compare(output, it.output)) it.points else 0
+        tests.forEach { test ->
+            val output = run(test.input, submissionDir)
+            val points = if (compare(output, test.output)) test.points else 0
 
             val result = TestResult(
                 submission = submission,
+                test = test,
                 points = points,
                 output = output,
             )

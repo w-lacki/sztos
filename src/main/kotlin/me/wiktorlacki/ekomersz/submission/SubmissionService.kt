@@ -2,8 +2,10 @@ package me.wiktorlacki.ekomersz.submission
 
 import jakarta.transaction.Transactional
 import me.wiktorlacki.ekomersz.contest.ContestNotAllowedException
+import me.wiktorlacki.ekomersz.problem.Problem
 import me.wiktorlacki.ekomersz.problem.ProblemService
 import me.wiktorlacki.ekomersz.test.TestService
+import me.wiktorlacki.ekomersz.user.User
 import me.wiktorlacki.ekomersz.user.UserService
 import org.springframework.stereotype.Service
 
@@ -14,6 +16,9 @@ class SubmissionService(
     private val testService: TestService,
     private val submissionRepository: SubmissionRepository
 ) {
+
+    fun getLatestSubmissionByProblem(user: User, problem: Problem) =
+        submissionRepository.findFirstByProblemAndSubmitterOrderByCreatedAtDesc(problem, user)
 
     @Transactional
     fun submit(username: String, request: SubmissionCreateRequest): SubmissionStatus {

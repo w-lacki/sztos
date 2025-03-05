@@ -18,6 +18,10 @@ class TestResult(
     @JoinColumn(name = "submission_id")
     val submission: Submission,
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "test_id")
+    val test: Test,
+
     @Column(nullable = false, updatable = false)
     val points: Int,
 

@@ -10,6 +10,7 @@ import Contests from "./components/Contests.jsx";
 import CreateContest from "./components/CreateContest.jsx";
 import Contest from "./components/Contest.jsx";
 import SubmissionManagement from "./components/Submission.jsx";
+import Result from "./components/Result.jsx";
 
 function App() {
     return (
@@ -23,7 +24,9 @@ function App() {
                         <Route path="/me" element={<Me/>}/>
                         <Route path="/logout" element={<Logout/>}/>
                         <Route path="/contests/create" element={<CreateContest/>}/>
-                        <Route path="/contests/:contestId/problems/:problemId/submit" element={<SubmissionManagement/>}/>
+                        <Route path="/contests/:contestId/problems/:problemId/submit"
+                               element={<SubmissionManagement/>}/>
+                        <Route path="/contests/:contestId/problems/:problemId/results" element={<Result/>}/>
                         <Route path="/contests/:contestId" element={<Contest/>}/>
                         <Route path="/contests" element={<Contests/>}/>
                     </Route>

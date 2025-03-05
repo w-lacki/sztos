@@ -5,6 +5,7 @@ const ProblemRow = ({contestId, problem}) => {
     return (<tr>
         <td><a href={`/contests/${contestId}/problems/${problem.id}`}>{problem.title}</a></td>
         <td><a href={`/contests/${contestId}/problems/${problem.id}/submit`}>Submit</a></td>
+        <td><a href={`/contests/${contestId}/problems/${problem.id}/results`}>Result</a></td>
         <td> {problem.deadline}</td>
         <td></td>
     </tr>)
