@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional
 import me.wiktorlacki.ekomersz.contest.ContestNotAllowedException
 import me.wiktorlacki.ekomersz.problem.Problem
 import me.wiktorlacki.ekomersz.problem.ProblemService
-import me.wiktorlacki.ekomersz.test.TestService
+import me.wiktorlacki.ekomersz.grade.GradingService
 import me.wiktorlacki.ekomersz.user.User
 import me.wiktorlacki.ekomersz.user.UserService
 import org.springframework.stereotype.Service
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 class SubmissionService(
     private val userService: UserService,
     private val problemService: ProblemService,
-    private val testService: TestService,
+    private val gradingService: GradingService,
     private val submissionRepository: SubmissionRepository
 ) {
 
@@ -36,8 +36,8 @@ class SubmissionService(
 
         submissionRepository.save(submission)
         val tests = submission.problem.tests
-        tests.count()
-        testService.compileAndRun(tests, submission)
+        tests.count() // Lazy load
+        gradingService.grade(tests, submission)
 
         return submission.toSubmissionCreateResponse()
     }

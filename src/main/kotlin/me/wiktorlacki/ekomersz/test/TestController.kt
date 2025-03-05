@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/v1/tests")
 class TestController(
-    private val testResultsService: TestResultsService
+    private val testingService: TestingService
 ) {
 
     @GetMapping("/results/{problemId}")
@@ -18,7 +18,7 @@ class TestController(
         @PathVariable problemId: Long,
         authentication: Authentication
     ): ResponseEntity<ResultsResponse> {
-        val response = testResultsService.getResults(authentication.name, problemId)
+        val response = testingService.getResults(authentication.name, problemId)
 
         return ResponseEntity.ok(response)
     }

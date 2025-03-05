@@ -1,7 +1,8 @@
-package me.wiktorlacki.ekomersz.test
+package me.wiktorlacki.ekomersz.grade
 
 import jakarta.persistence.*
 import me.wiktorlacki.ekomersz.submission.Submission
+import me.wiktorlacki.ekomersz.test.Test
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
@@ -9,7 +10,7 @@ import java.time.Instant
 @Entity
 @Table(name = "test_results")
 @EntityListeners(AuditingEntityListener::class)
-class TestResult(
+class Grade(
     @Id
     @GeneratedValue
     val id: Long? = null,
@@ -23,6 +24,9 @@ class TestResult(
     val test: Test,
 
     @Column(nullable = false, updatable = false)
+    val type: Type,
+
+    @Column(nullable = false, updatable = false)
     val points: Int,
 
     @Column(nullable = false, columnDefinition = "TEXT")
@@ -31,4 +35,8 @@ class TestResult(
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate
     private var createdAt: Instant? = null,
-)
+) {
+    enum class Type {
+        COMPILATION_ERROR, RUNTIME_ERROR, SUCCESS
+    }
+}

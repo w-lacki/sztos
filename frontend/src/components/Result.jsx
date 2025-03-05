@@ -17,7 +17,6 @@ const Result = () => {
 
     // Fetch results with retry logic
     const fetchResults = () => {
-        console.log("nigger2")
         axiosAuth.get(`/tests/results/${problemId}`)
             .then(res => {
                 console.log(res)
