@@ -1,0 +1,39 @@
+package me.wiktorlacki.stos.test
+
+import me.wiktorlacki.stos.grade.GradeRepository
+import me.wiktorlacki.stos.grade.toDTO
+import me.wiktorlacki.stos.problem.ProblemService
+import me.wiktorlacki.stos.submission.SubmissionService
+import me.wiktorlacki.stos.user.UserService
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.ControllerAdvice
+import org.springframework.web.bind.annotation.ExceptionHandler
+
+@Service
+@ControllerAdvice
+class TestingService(
+    private val gradeRepository: GradeRepository,
+    private val userService: UserService,
+    private val submissionService: SubmissionService,
+    private val problemService: ProblemService
+) {
+
+    fun getResults(username: String, problemId: Long): ResultsResponse {
+        val user = userService.getByUsername(username)
+        val problem = problemService.getById(problemId)
+        val tests = problem.tests
+        val testDTOs = tests.map { it.toDTO() }
+        val submission = submissionService.getLatestSubmissionByProblem(user, problem) ?: let {
+            return ResultsResponse(testDTOs, emptyList())
+        }
+        val results = gradeRepository.findBySubmission(submission).ifEmpty { throw ResultsNotReadyException() }
+        return ResultsResponse(testDTOs, results.map { it.toDTO() })
+    }
+
+    @ExceptionHandler(ResultsNotReadyException::class)
+    fun handleResultsNotReadyException(ex: ResultsNotReadyException): ResponseEntity<Void> {
+        return ResponseEntity(HttpStatus.PARTIAL_CONTENT)
+    }
+}
