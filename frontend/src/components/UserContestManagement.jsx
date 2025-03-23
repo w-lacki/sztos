@@ -28,8 +28,6 @@ const UserContestManagement = ({contestId}) => {
             .finally(() => setLoading(false))
     }
 
-
-    console.log(contest)
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error: {error.message}</div>;
 

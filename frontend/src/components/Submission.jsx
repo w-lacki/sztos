@@ -17,7 +17,6 @@ const SubmissionManagement = () => {
         event.preventDefault()
         axiosAuth.post('/submissions', formData)
             .then((response) => {
-                console.log(response)
                 navigation(`/contests/${contestId}/problems/${problemId}/results`)
             }).catch(error => {
             setError(`Error ${error}`)

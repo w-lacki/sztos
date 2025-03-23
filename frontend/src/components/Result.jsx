@@ -1,11 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useAxiosAuth} from "../hooks/axiosProvider.js";
 import {useParams} from "react-router-dom"; // CSS file defined below
-import "../styles/Results.css";
-
 
 const Result = () => {
-    // JSON data
     const {problemId} = useParams();
     const axiosAuth = useAxiosAuth()
     const [results, setResults] = useState(null)
@@ -15,30 +12,24 @@ const Result = () => {
 
     const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    // Fetch results with retry logic
     const fetchResults = () => {
         axiosAuth.get(`/tests/results/${problemId}`)
             .then(res => {
-                console.log(res)
                 if (res.status === 200) {
-                    console.log("ESSA!")
                     setResults(res.data)
                     setRunning(false)
                 } else sleep(1).then(() => {
                     fetchResults()
                 })
             }).catch(err => {
-                console.log(err)
             setError(`Error: ${err.message}`);
             setRunning(false);
         }).finally(() => setLoading(false))
     }
 
-
-    // Run fetchResults on mount or when problemId changes
     useEffect(() => {
         fetchResults();
-    }, []); // Dependency on problemId
+    }, []);
 
     if (loading) {
         return <div>Loading...</div>
@@ -52,15 +43,11 @@ const Result = () => {
         return <div>Obliczanie...</div>
     }
 
-    console.log(results)
-
-    // Pair tests with results
     const pairedData = results.tests.map(test => {
         const result = results.results.find(r => r.testId === test.id) || {};
         return {test, result};
     });
 
-    // Calculate total points
     const totalPossiblePoints = results.tests.reduce((sum, test) => sum + test.points, 0);
     const totalEarnedPoints = results.results.reduce((sum, result) => sum + result.points, 0);
 

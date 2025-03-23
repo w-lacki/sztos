@@ -18,7 +18,6 @@ const Login = () => {
         setSubmitting(true)
         event.preventDefault()
         axiosInstance.post('/auth/login', formData).then((response) => {
-            console.log(response)
             login(response.data.token, response.data.refreshToken)
             navigate('/me')
         }).catch(error => {

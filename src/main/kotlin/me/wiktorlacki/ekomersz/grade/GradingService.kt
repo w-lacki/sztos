@@ -53,7 +53,14 @@ class GradingService(
             cleanup(submissionDir)
         }
 
+
         // TESTING
+        test(tests, submission, submissionDir)
+
+        cleanup(submissionDir)
+    }
+
+    private fun test(tests: List<Test>, submission: Submission, submissionDir: Path) {
         tests.forEach { test ->
             val executionResult = run(test.input, submissionDir)
             if (executionResult is GradingStageResult.Error) {
@@ -80,7 +87,6 @@ class GradingService(
             gradeRepository.save(result)
         }
 
-        cleanup(submissionDir)
     }
 
     private fun compile(dir: Path): GradingStageResult {
@@ -88,7 +94,10 @@ class GradingService(
             "docker", "run", "--rm",
             "-v", "$dir:/grading",
             "--network", "none",
-            "grader", "g++", "-o", "submission", "submission.cpp"
+            "grader",
+            "g++",
+            "-g", "-fsanitize=address", "-o", "submission",
+            "submission.cpp"
         ).start()
 
         return awaitStageResult(process)
@@ -103,7 +112,6 @@ class GradingService(
             "grader", "./submission"
         ).start()
 
-        // Send test input
         process.outputStream.bufferedWriter().use {
             it.write(input)
             it.newLine()
@@ -113,14 +121,15 @@ class GradingService(
         return awaitStageResult(process)
     }
 
-    private fun awaitStageResult(process: Process) = if (process.exitValue() == 0) {
+    private fun awaitStageResult(process: Process): GradingStageResult {
         process.waitFor()
-
-        val message = process.inputStream.readAll()
-        GradingStageResult.Success(message)
-    } else {
-        val error = process.errorStream.readAll()
-        GradingStageResult.Error(error)
+        return if (process.exitValue() == 0) {
+            val message = process.inputStream.readAll()
+            GradingStageResult.Success(message)
+        } else {
+            val error = process.errorStream.readAll()
+            GradingStageResult.Error(error)
+        }
     }
 
     private fun InputStream.readAll() = this.bufferedReader()

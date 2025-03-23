@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 
 @Entity
-@Table(name = "test_results")
+@Table(name = "grades")
 @EntityListeners(AuditingEntityListener::class)
 class Grade(
     @Id
