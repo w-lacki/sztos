@@ -1,7 +1,3 @@
-
-
-
-
 # SZTOS ![MIT License](https://img.shields.io/badge/license-MIT-green)
 
 System for testing and evaluating student code assignments.
@@ -13,7 +9,7 @@ https://github.com/user-attachments/assets/eda95904-331d-49a5-8db3-25039b809783
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
-- [Configuration](#configuration)
+- [Usage](#usage)
 - [License](#license)
 
 ## Description
