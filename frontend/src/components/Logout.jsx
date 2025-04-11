@@ -2,6 +2,7 @@ import {useAxiosAuth} from "../hooks/axiosProvider.js";
 import {useAuth} from "../hooks/useAuth.js";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import Loading from "./Loading.jsx";
 
 const Logout = () => {
     const {auth, logout} = useAuth();
@@ -20,9 +21,9 @@ const Logout = () => {
         })
         .finally(() => setLoading(false));
 
-    return <div>
-        {loading && <p>Logging out...</p>}
-        {error && <p>error</p>}
-    </div>
+    if (loading) return <Loading/>;
+    if (error) return error
+
+    return <div/>
 }
 export default Logout;

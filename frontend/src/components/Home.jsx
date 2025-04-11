@@ -1,7 +1,7 @@
 const Home = () => {
     return (<div>
-        <h1>Home Page</h1>
-        <p>Welcome to QTOS!</p>
+        <h1>SZTOS</h1>
+        <p>System for testing and evaluating student code assignments</p>
     </div>)
 }
 

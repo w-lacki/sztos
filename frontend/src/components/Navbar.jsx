@@ -5,17 +5,20 @@ const Navbar = () => {
 
     return (
         <div className="navbar">
-            <a href="/">Home</a>
-            {auth.isAuthenticated ? (
-                <>
-                    <a href="/contests">Contests</a>
-                    <a href="/me">Dashboard</a>
-                    <a href="/logout">Logout</a>
-                </>
-            ) : (
-                <a href="/login">Login</a>
-            )}
+            <a href="/" className="navbar-brand">Home</a>
+            <div className="navbar-links">
+                {auth.isAuthenticated ? (
+                    <>
+                        <a href="/contests" className="navbar-link">Contests</a>
+                        <a href="/dashboard" className="navbar-link">Dashboard</a>
+                        <a href="/logout" className="navbar-link">Logout</a>
+                    </>
+                ) : (
+                    <a href="/login" className="navbar-link">Login</a>
+                )}
+            </div>
         </div>
+
     )
 }
 export default Navbar;

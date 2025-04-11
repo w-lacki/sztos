@@ -2,7 +2,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./components/Home.jsx";
 import Login from "./components/Login.jsx";
 import Navbar from "./components/Navbar.jsx";
-import Me from "./components/Me.jsx";
+import Dashboard from "./components/Dashboard.jsx";
 import {AuthProvider} from "./context/AuthContext.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import Logout from "./components/Logout.jsx";
@@ -11,6 +11,7 @@ import CreateContest from "./components/CreateContest.jsx";
 import Contest from "./components/Contest.jsx";
 import SubmissionManagement from "./components/Submission.jsx";
 import Result from "./components/Result.jsx";
+import './App.css'
 
 function App() {
     return (
@@ -21,7 +22,7 @@ function App() {
                     <Route path="/" element={<Home/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route element={<PrivateRoute/>}>
-                        <Route path="/me" element={<Me/>}/>
+                        <Route path="/dashboard" element={<Dashboard/>}/>
                         <Route path="/logout" element={<Logout/>}/>
                         <Route path="/contests/create" element={<CreateContest/>}/>
                         <Route path="/contests/:contestId/problems/:problemId/submit"

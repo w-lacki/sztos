@@ -17,7 +17,6 @@ export const useAxiosAuth = () => {
     return axiosInstance;
 };
 
-// Plain instance for login (before token is set)
 export const axiosInstance = axios.create({
     baseURL: 'http://localhost:8080/api/v1',
 });
