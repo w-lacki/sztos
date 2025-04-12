@@ -15,7 +15,6 @@ import java.time.Duration
 import java.time.Instant
 import java.util.*
 
-
 @Service
 class AuthenticationService(
     private val jwtService: JwtService,

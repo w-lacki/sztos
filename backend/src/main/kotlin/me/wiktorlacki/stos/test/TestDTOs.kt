@@ -32,7 +32,6 @@ data class TestDTO(
 
 fun Test.toDTO() = TestDTO(id!!, points, input, output)
 
-
 data class ResultsResponse(
     val tests: List<TestDTO>,
     val results: List<GradeDTO>

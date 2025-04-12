@@ -42,5 +42,4 @@ class SubmissionService(
         return submission.toSubmissionCreateResponse()
     }
 
-
 }

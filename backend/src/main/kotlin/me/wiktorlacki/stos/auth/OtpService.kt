@@ -29,6 +29,5 @@ class OtpService(private val redisTemplate: RedisTemplate<String, String>) {
         repeat(16) { append(charset.random()) }
     }
 
-
     private fun UUID?.toCacheKey() = "otp:${this}"
 }

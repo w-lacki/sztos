@@ -8,7 +8,6 @@ import java.time.Instant
 
 class JwtService(private val issuer: String, private val ttl: Duration, private val encoder: JwtEncoder) {
 
-
     fun generateToken(username: String, roles: List<String>): String {
         val claims = JwtClaimsSet.builder()
             .subject(username)

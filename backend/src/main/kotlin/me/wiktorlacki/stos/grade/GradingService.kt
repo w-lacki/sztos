@@ -11,9 +11,7 @@ import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.Duration
-import kotlin.io.path.absolutePathString
 import kotlin.io.path.deleteIfExists
-
 
 @Service
 class GradingService(
@@ -54,7 +52,6 @@ class GradingService(
             gradeRepository.save(grade)
             cleanup(submissionDir)
         }
-
 
         // TESTING
         test(tests, submission, submissionDir)

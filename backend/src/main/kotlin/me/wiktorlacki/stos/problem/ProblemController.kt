@@ -16,7 +16,6 @@ class ProblemController(
     private val problemService: ProblemService
 ) {
 
-
     @GetMapping("/{problemId}")
     fun get(@PathVariable problemId: Long, authentication: Authentication): ResponseEntity<DetailedProblemDTO> {
         val response = problemService.getContextAwareByProblemId(authentication.name, problemId)

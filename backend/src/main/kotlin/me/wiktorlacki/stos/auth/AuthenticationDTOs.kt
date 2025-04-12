@@ -54,7 +54,9 @@ fun User.toRegistrationResponse() = RegistrationResponse(
 )
 
 data class VerificationResponse(
-    val email: String, @JsonProperty("requires_confirmation")
+    val email: String,
+
+    @JsonProperty("requires_confirmation")
     val requiresConfirmation: Boolean = false
 )
 

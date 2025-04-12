@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.server.resource.web.access.BearerToke
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
-
 @Configuration
 @EnableMethodSecurity
 class SecurityConfiguration {
