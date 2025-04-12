@@ -21,9 +21,6 @@ class JpaUserDetailsService(private val userRepository: UserRepository) : UserDe
 
         if (!user.emailVerified) throw ResponseStatusException(HttpStatus.BAD_REQUEST, "User not verified.")
 
-        val logger = LoggerFactory.getLogger(this.javaClass)
-        logger.info("ESSA :)")
-        LoggerFactory.getLogger(this.javaClass).info("Loading user ${user.username} with authorities ${user.roles}")
         return User.builder()
             .username(username)
             .password(user.password)
