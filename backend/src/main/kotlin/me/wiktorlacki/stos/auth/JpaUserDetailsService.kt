@@ -19,7 +19,7 @@ class JpaUserDetailsService(private val userRepository: UserRepository) : UserDe
         val user =
             userRepository.findByUsername(username) ?: throw UsernameNotFoundException("User $username not found")
 
-        if (!user.emailVerified) throw ResponseStatusException(HttpStatus.BAD_REQUEST, "User not verified.")
+        if (!user.emailVerified) throw EmailNotVerifiedException()
 
         return User.builder()
             .username(username)
