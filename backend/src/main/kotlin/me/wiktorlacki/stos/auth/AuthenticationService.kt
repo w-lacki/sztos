@@ -43,9 +43,8 @@ class AuthenticationService(
 
     fun refreshToken(refreshToken: UUID): LoginResponse {
         val refreshTokenEntity = refreshTokenRepository.findByIdAndExpiresAtAfter(refreshToken, Instant.now())
-
-        validateNotNull(refreshTokenEntity) { "Invalid or expired refresh token." }
-        val user = refreshTokenEntity!!.user
+            ?: throw RefreshTokenExpiredException()
+        val user = refreshTokenEntity.user
         val newAccessToken = jwtService.generateToken(user.username, user.roles.map { it.name })
 
         return JwtToken(newAccessToken).toLoginResponse(refreshToken)
@@ -57,8 +56,8 @@ class AuthenticationService(
 
     @Transactional
     fun register(request: RegistrationRequest): RegistrationResponse {
-        validate(userRepository.existsByEmail(request.email).not()) { "User with this email already exists" }
-        validate(userRepository.existsByUsername(request.username).not()) { "User with this username already exists" }
+        if (userRepository.existsByEmail(request.email)) throw EmailTakenException()
+        if (userRepository.existsByUsername(request.username)) throw UsernameTakenException()
 
         val user = User(
             username = request.username,

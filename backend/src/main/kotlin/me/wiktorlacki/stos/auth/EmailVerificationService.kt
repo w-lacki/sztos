@@ -37,10 +37,7 @@ class EmailVerificationService(
 
     @Transactional
     fun verifyEmail(id: UUID, code: String): VerificationResponse {
-        if (!otpService.isValidOtp(id, code)) throw ResponseStatusException(
-            HttpStatus.BAD_REQUEST,
-            "Invalid or expired verification code."
-        )
+        if (!otpService.isValidOtp(id, code)) throw InvalidOTPException()
         otpService.invalidateOtp(id)
 
         val user = userService.getById(id)
