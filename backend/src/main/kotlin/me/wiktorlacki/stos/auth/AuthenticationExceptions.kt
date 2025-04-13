@@ -2,6 +2,8 @@ package me.wiktorlacki.stos.auth
 
 class EmailNotVerifiedException : Exception("Email not verified.")
 
+class EmailAlreadyVerifiedException : Exception("Email already verified.")
+
 class InvalidOTPException : Exception("Invalid or expired verification code.")
 
 class RefreshTokenExpiredException : Exception("Refresh token has expired.")

@@ -3,13 +3,10 @@ package me.wiktorlacki.stos.auth
 import jakarta.transaction.Transactional
 import me.wiktorlacki.stos.user.User
 import me.wiktorlacki.stos.user.UserService
-import me.wiktorlacki.stos.validate
-import org.springframework.http.HttpStatus
 import org.springframework.mail.MailSender
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
-import org.springframework.web.server.ResponseStatusException
 import java.util.*
 
 @Service
@@ -21,7 +18,8 @@ class EmailVerificationService(
 
     @Async
     fun sendVerificationEmail(user: User) {
-        validate(!user.emailVerified) { "Email already verified ${user.emailVerified}" }
+        if (user.emailVerified) throw EmailAlreadyVerifiedException()
+
         val code = otpService.generateOtp(user)
         val emailVerificationUrl = "http://localhost:8080/api/auth/verify/${user.id}?code=${code}"
         val emailText = "Click the link to verify your email: $emailVerificationUrl"
