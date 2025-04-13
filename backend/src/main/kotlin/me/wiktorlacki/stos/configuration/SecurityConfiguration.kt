@@ -25,7 +25,7 @@ class SecurityConfiguration {
             configuration.allowedOrigins = mutableListOf("*")
             configuration.allowedMethods = mutableListOf("*")
             configuration.allowedHeaders = mutableListOf("*")
-            val source: UrlBasedCorsConfigurationSource = UrlBasedCorsConfigurationSource()
+            val source = UrlBasedCorsConfigurationSource()
             source.registerCorsConfiguration("/**", configuration)
             it.configurationSource(source)
         }

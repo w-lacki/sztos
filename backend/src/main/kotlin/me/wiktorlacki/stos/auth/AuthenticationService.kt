@@ -1,11 +1,9 @@
 package me.wiktorlacki.stos.auth
 
 import jakarta.transaction.Transactional
+import me.wiktorlacki.stos.role.RoleRepository
 import me.wiktorlacki.stos.user.User
 import me.wiktorlacki.stos.user.UserRepository
-import me.wiktorlacki.stos.role.RoleRepository
-import me.wiktorlacki.stos.validateNotNull
-import me.wiktorlacki.stos.validate
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.userdetails.UsernameNotFoundException
