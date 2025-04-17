@@ -1,6 +1,7 @@
 package me.wiktorlacki.stos.submission
 
 import jakarta.transaction.Transactional
+import me.wiktorlacki.stos.contest.ContestDeadlinePassed
 import me.wiktorlacki.stos.contest.ContestNotAllowedException
 import me.wiktorlacki.stos.problem.Problem
 import me.wiktorlacki.stos.problem.ProblemService
@@ -8,6 +9,7 @@ import me.wiktorlacki.stos.grade.GradingService
 import me.wiktorlacki.stos.user.User
 import me.wiktorlacki.stos.user.UserService
 import org.springframework.stereotype.Service
+import java.time.Instant
 
 @Service
 class SubmissionService(
@@ -26,6 +28,7 @@ class SubmissionService(
         val problem = problemService.getById(request.problem)
 
         if (!submitter.contests.contains(problem.contest)) throw ContestNotAllowedException()
+        if (problem.deadline < Instant.now()) throw ContestDeadlinePassed()
 
         val submission = Submission(
             submitter = submitter,

@@ -9,3 +9,5 @@ class ContestDoesNotContainUserException : Exception("Contest does not contain t
 class ContestNotAllowedException : Exception("You are not allowed to this contest.")
 
 class ContestNotAllowedToModifyException : Exception("You are not allowed to modify this contest.")
+
+class ContestDeadlinePassed : Exception("Contest deadline passed.")
