@@ -17,10 +17,6 @@ https://github.com/user-attachments/assets/eda95904-331d-49a5-8db3-25039b809783
 The project was developed to replicate the functionality of the existing system at Gdańsk University of Technology, STOS (https://stos.eti.pg.gda.pl/), and to better understand its inner workings.
 The system enables the creation of contests, the assignment of students to these contests, the development of problems for students to solve, and the automated evaluation of their code submissions through various testing mechanisms.
 
-For example:
-- **Frontend**: The frontend is built with Spring (mention specific tools or versions if necessary).
-- **Backend**: The backend is built with React (you may want to clarify the role of React in your project, as it is typically used for front-end).
-
 ## Features
 
 Here is a list of features based on your description:
