@@ -19,8 +19,6 @@ The system enables the creation of contests, the assignment of students to these
 
 ## Features
 
-Here is a list of features based on your description:
-
 - **Registration and Login** with email address verification.
 - **Contest Creation** and management of students assigned to each contest.
 - **Problem Creation** and management within each contest.
